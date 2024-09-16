@@ -12,7 +12,7 @@ prefix standard: <https://data.rijksfinancien.nl/xml/id/standard/>
 prefix status: <http://purl.org/adms/status/>
 prefix vann: <http://purl.org/vocab/vann/>
 prefix void: <http://rdfs.org/ns/void#>
-prefix dom: <http://www.w3.org/XML/1998/namespace#> 
+prefix xml: <http://www.w3.org/XML/1998/namespace#> 
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
   dom:
@@ -41,7 +41,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
       skos:;
     owl:versionInfo '0.1.0';
     vann:preferredNamespacePrefix 'dom';
-    vann:preferredNamespaceUri 'http://www.w3.org/DOM/;
+    vann:preferredNamespaceUri 'http://www.w3.org/DOM/';
     void:uriRegexPattern '^http://www.w3.org/DOM/';
     void:uriSpace 'http://www.w3.org/DOM/#'^^xsd:anyURI.
 
@@ -264,7 +264,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
     a owl:Class;
     rdfs:subClassOf dom:CharacterData;
     dct:conformsTo section:Comment;
-    skos:definition 'Represents a comment in the HTML or XML document. Comments are not rendered but are included in the DOM for developers' reference.'@en;
+    skos:definition "Represents a comment in the HTML or XML document. Comments are not rendered but are included in the DOM for developers' reference."@en;
     skos:prefLabel 'Comment'@en;
     rdfs:isDefinedBy dom:.
 
@@ -294,12 +294,76 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ### DOM attributes
  
-  dom:attribute
+  dom:nodeName
     a owl:DatatypeProperty;
+    dct:conformsTo section:Node;
+    rdfs:domain dom:Node;
+    rdfs:range xsd:string;
+    skos:prefLabel 'node name'@en;
+    skos:definition "Specifies a name for a DOM node."@en;
+    rdfs:isDefinedBy dom:.
+ 
+  dom:documentBaseURL
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Node;
+    rdfs:domain dom:Document;
+    rdfs:range xsd:string;
+    skos:prefLabel 'document base URL'@en;
+    skos:definition "Specifies the node document's document base URL."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:namespace
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
     rdfs:domain dom:Element;
-    rdfs:range rdfs:Literal;
-    skos:definition "Property that is the parent property of all existing DOM attributes. An attribute is a name-value pair that is associated with an DOM element. Attributes provide additional information about an element and are specified within the start tag of an element. Attributes can modify the behavior or appearance of an element, define relationships between elements, or provide other metadata. The name of the attribute is followed by an equal sign (=) and the attribute's value, which is enclosed in double or single quotes. Some attributes affect the element simply by their presence in the start tag of the element, with the value implicitly being an empty string."@en;
-    skos:prefLabel 'has attribute property'@en;
+    rdfs:range xsd:anyUri;
+    skos:prefLabel 'namespace'@en;
+    skos:definition "Specifies the namespace for a DOM element."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:namespacePrefix
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
+    rdfs:domain dom:Element;
+    rdfs:range xsd:string;
+    skos:prefLabel 'namespace prefix'@en;
+    skos:definition "Specifies the namespace prefix for a DOM element."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:localName
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
+    rdfs:domain dom:Element;
+    rdfs:range xsd:string;
+    skos:prefLabel 'local name'@en;
+    skos:definition "Specifies the local name for a DOM element."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:customElementState
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
+    rdfs:domain dom:Element;
+    rdfs:range xsd:string;
+    skos:prefLabel 'custom element state'@en;
+    skos:definition "Specifies a custom element state for a DOM element."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:customElementDefinition
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
+    rdfs:domain dom:Element;
+    rdfs:range xsd:string;
+    skos:prefLabel 'custom element definition'@en;
+    skos:definition "Specifies a custom element definition for a DOM element."@en;
+    rdfs:isDefinedBy dom:.
+
+  dom:isValue
+    a owl:DatatypeProperty;
+    dct:conformsTo section:Element;
+    rdfs:domain dom:Element;
+    rdfs:range xsd:string;
+    skos:prefLabel 'is value'@en;
+    skos:definition "Specifies an is value for a DOM element."@en;
     rdfs:isDefinedBy dom:.
 
   dom:class
@@ -308,7 +372,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
     dom:key 'class';
     rdfs:domain dom:Element;
     rdfs:range xsd:string;
-    rdfs:subPropertyOf dom:attribute;
+    rdf:type dom:Attribute;
     skos:prefLabel 'the class attribute'@en;
     skos:definition "Specifies a class for a DOM element."@en;
     rdfs:isDefinedBy dom:.
@@ -319,7 +383,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
     dom:key 'id';
     rdfs:domain dom:Element;
     rdfs:range xsd:string;
-    rdfs:subPropertyOf dom:attribute;
+    rdf:type dom:Attribute;
     skos:prefLabel 'the id attribute'@en;
     skos:definition "Specifies an associated unique identifier (ID) for a DOM element."@en;
     rdfs:isDefinedBy dom:.
@@ -330,18 +394,17 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
     dom:key 'slot';
     rdfs:domain dom:Element;
     rdfs:range xsd:string;
-    rdfs:subPropertyOf dom:attribute;
+    rdf:type dom:Attribute;
     skos:prefLabel 'the slot attribute'@en;
     skos:definition "Specifies a slot for a DOM element."@en;
     rdfs:isDefinedBy dom:.
 
   dom:name
     a owl:DatatypeProperty;
-    dct:conformsTo section:Class;
-
+    dct:conformsTo section:Name;
     rdfs:domain dom:Element;
     rdfs:range xsd:string;
-    rdfs:subPropertyOf dom:attribute;
-    skos:prefLabel 'the class attribute'@en;
-    skos:definition "Specifies a class for a DOM element."@en;
+    rdf:type dom:Attribute;
+    skos:prefLabel 'the name attribute'@en;
+    skos:definition "Specifies a name for a DOM element."@en;
     rdfs:isDefinedBy dom:.
